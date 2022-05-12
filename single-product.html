@@ -4,7 +4,6 @@
 <html lang="en">
 
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -111,13 +110,25 @@
                         </div>
                         <div class="right-content">
                             <div class="quantity buttons_added">
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                <input type="button" value="-" class="minus"><input type="number" id="qtyField" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                <div class="row">
+                                  <div class="col-lg-5">
+                                    <fieldset>
+                                      <input name="name" type="text" id="nameField" placeholder="Your Name" required="">
+                                    </fieldset>
+                                  </div>
+                                  <div class="col-lg-5">
+                                    <fieldset>
+                                      <input name="email" type="text" id="emailField" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
+                                    </fieldset>
+                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="total">
                         <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                        <div class="main-border-button"><button id="botonsito" class="btn btn-primary">Realiza tu Pedido</button></div>
                     </div>
                 </div>
             </div>
@@ -182,6 +193,58 @@
 
             });
         });
+
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCQzRihl1hZRwEVAPnYZ_BdLbN2Ekj-6Z0",
+        authDomain: "testapp-c4715.firebaseapp.com",
+        databaseURL: "https://testapp-c4715-default-rtdb.firebaseio.com/",
+        projectId: "testapp-c4715",
+        storageBucket: "testapp-c4715.appspot.com",
+        messagingSenderId: "1068416713819",
+        appId: "1:1068416713819:web:81f2221c793fe62398eb7e"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      var ordenesRef = firebase.database().ref('Ordenes');
+
+      const element = document.getElementById("botonsito");
+      element.addEventListener("click", function() {
+        console.log("Guardando Orden");
+        submitOrder();
+      });
+      //
+      function submitOrder() {
+        // Get values
+        var name = getInputVal('nameField');
+        var email = getInputVal('emailField');
+        var quantity = getInputVal('qtyField');
+
+        saveOrder(name, email, quantity);
+        // document.getElementById('qtyField').reset();
+        // document.getElementById('emailField').reset();
+        // document.getElementById('nameField').reset();
+      }
+
+      // Function to get get form values
+      function getInputVal(id) {
+        return document.getElementById(id).value;
+      }
+
+      // Save order to firebase
+      function saveOrder(name, email, quantity) {
+        var newOrderRef = ordenesRef.push();
+        console.log("entra2");
+        newOrderRef.set({
+          name: name,
+          email: email,
+          quantity: quantity
+        });
+      }
 
     </script>
 
