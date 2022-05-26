@@ -1,19 +1,9 @@
 <!-- ***** LOS INSURGENTES SHOP ***** -->
 <!-- ***** SINGLE PRODUCT ***** -->
-<?php
-if ($_GET['run']) {
-  # This code will run if ?run=true is set.
-  exec("ls");
-  shell_exec("runEmail.sh");
-  header('Location: http://localhost:8080/single-product.html?success=true');
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -96,7 +86,7 @@ if ($_GET['run']) {
             <div class="row">
                 <div class="col-lg-8">
                 <div class="left-images">
-                    <img src="assets/images/merch1.JPG" alt="">
+                    <img id="myImg" src="#" alt="">
                 </div>
             </div>
             <div class="col-lg-4">
@@ -139,7 +129,9 @@ if ($_GET['run']) {
                     <div class="total">
                         <h4>Total: $210.00</h4>
                         <div class="main-border-button"><button id="botonsito" class="btn btn-primary">Realiza tu Pedido</button></div>
-                        <a href="?run=true">Click Me!</a>
+                        <form method="post">
+                          <input type="button" value="Send Email" onclick="sendEmail()"/>
+                        </form>  
                     </div>
                 </div>
             </div>
@@ -257,8 +249,40 @@ if ($_GET['run']) {
         });
       }
 
-    </script>
+      function getImage() {
+        console.log("entra");
+        const urlParams = new URLSearchParams(window.location.search);
+        const image = String(urlParams.get('image'));
+        return image;
+      }
 
+      var imgUrl = String(getImage());
+      console.log(imgUrl);
+      // set image
+      document.getElementById("myImg").src=imgUrl;
+
+    </script>
+    <script src= 
+    "https://smtpjs.com/v3/smtp.js"> 
+    </script> 
+  
+    <script type="text/javascript"> 
+      function sendEmail() { 
+      console.log("entra")
+      Email.send({ 
+        Host: "smtp.gmail.com", 
+        Username: "losinsurgentesshop@gmail.com", 
+        Password: "LaSusana2017", 
+        To: 'arod.gzz28@gmail.com', 
+        From: "losinsurgentesshop@gmail.com", 
+        Subject: "Sending Email using javascript", 
+        Body: "Well that was easy!!", 
+      }) 
+        .then(function (message) { 
+        alert("mail sent successfully") 
+        }); 
+      } 
+    </script>
   </body>
 
 </html>
