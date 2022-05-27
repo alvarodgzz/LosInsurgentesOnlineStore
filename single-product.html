@@ -154,7 +154,7 @@
     <!-- ***** Footer Start ***** -->
     <footer>
       <div class="container">
-              <div class="col-lg-12">
+              <div class="row-lg-12">
                   <div class="under-footer">
                       <p>Los Insurgentes © 2022.
                           <li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -238,8 +238,9 @@
         var lastname = getInputVal('lastNameField');
         var email = getInputVal('emailField');
         var quantity = getInputVal('qtyField');
+        var articulo = getImage();
 
-        saveOrder(name, lastname, email, quantity);
+        saveOrder(name, lastname, email, quantity, articulo);
         // document.getElementById('qtyField').reset();
         // document.getElementById('emailField').reset();
         // document.getElementById('nameField').reset();
@@ -251,14 +252,15 @@
       }
 
       // Save order to firebase
-      function saveOrder(name, lastname, email, quantity) {
+      function saveOrder(name, lastname, email, quantity, articulo) {
         var newOrderRef = ordenesRef.push();
         console.log("entra2");
         newOrderRef.set({
           name: name,
           lastname: lastname,
           email: email,
-          quantity: quantity
+          quantity: quantity,
+          articulo: articulo
         });
       }
 
